@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CNTK.CPUOnly" Version="2.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\Apert\.nuget\packages\cntk.deps.opencv.zip\2.6.0\build\netstandard2.0\\..\..\support\x64\Dependency\Release\opencv_world310.dll" Link="CNTK\opencv_world310.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\Apert\.nuget\packages\cntk.cpuonly\2.6.0\build\netstandard2.0\\..\..\support\x64\Release\Cntk.Composite-2.6.dll" Link="CNTK\Cntk.Composite-2.6.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\Apert\.nuget\packages\cntk.cpuonly\2.6.0\build\netstandard2.0\\..\..\support\x64\Release\Cntk.Core.CSBinding-2.6.dll" Link="CNTK\Cntk.Core.CSBinding-2.6.dll" />
+    <None Update="data\t10k-images.idx3-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\t10k-labels.idx1-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\train-images.idx3-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\train-labels.idx1-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="data\" />
+  </ItemGroup>
+
+</Project>
