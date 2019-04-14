@@ -48,7 +48,7 @@ namespace MNISTCNTK
             Function perdiction = ClassificationError(new Variable(classifier_output), labels, "classificationError");
 
             // Learning rate
-            TrainingParameterScheduleDouble trainingParameter = new TrainingParameterScheduleDouble(0.001125, 1);
+            TrainingParameterScheduleDouble trainingParameter = new TrainingParameterScheduleDouble(0.01125, 1);
 
             // Learners
             IList<Learner> learners = new List<Learner>()
@@ -60,9 +60,9 @@ namespace MNISTCNTK
             Trainer trainer = Trainer.CreateTrainer(classifier_output, loss_function, perdiction, learners);
 
             // Minibatch(Training data)
-            const uint minibatchSize = 50;
-            int outputFrequencyMinibatch = 25;
-            int Epchos = 8;
+            const uint minibatchSize = 35;
+            int outputFrequencyMinibatch = 35;
+            int Epchos = 15;
             IList<StreamConfiguration> streamConfigurations = new StreamConfiguration[]
             {
                 new StreamConfiguration(featureStreamName, image_flat_size),
@@ -100,7 +100,7 @@ namespace MNISTCNTK
             // Validate the model
             MinibatchSource minibatchSourceNewModel = MinibatchSource.TextFormatMinibatchSource("mnist-train.txt", streamConfigurations, MinibatchSource.FullDataSweep);
             MNISTConvolutionNN.ValidateModelWithMinibatchSource("cnn-model.mld", minibatchSourceNewModel,
-                                image_dimension, number_class, featureStreamName, labelsStreamName, classifierName, device);
+                                image_dimension, number_class, featureStreamName, labelsStreamName, classifierName, device, maxCount: 10000);
 
             Console.ReadKey(true);
         }

@@ -30,49 +30,53 @@ namespace MNISTCNTK
 
             // Create and connect a convolution neutral network for MNIST
             // 1. Convolution layer I 
-            // Kernel size = 3 x 3, Input size = 28 x 28 x 1, Output size = 12 x 12 x 20
+            // Kernel size = 3 x 3, Input size = 28 x 28 x 1, Output size = 12 x 12 x 30
             ConvolutionKernel kernel1 = new ConvolutionKernel()
             {
-                width = 5,
-                height = 5,
+                width = 3,
+                height = 3,
                 input_channel = 1,
-                output_map_channel = 20,
+                output_map_channel = 30,
                 vStride = 2,
                 hStride = 2,
-                poolingWindowWidth = 5,
-                poolingWindowHeight = 5,
+                poolingWindowWidth = 3,
+                poolingWindowHeight = 3,
             };
 
             Function convolutionPooling1 = ConvolutionWithMaxPooling(inputLayer: features, kernel: kernel1);
 
             // 2. Convolution layer II
-            // Kernel size = 3 x 3, Input size = 12 x 12 x 20, Output size =  4 x 4 x 50
+            // Kernel size = 3 x 3, Input size = 12 x 12 x 30, Output size =  8 x 8 x 10
             ConvolutionKernel kernel2 = new ConvolutionKernel()
             {
-                width = 5,
-                height = 5,
+                width = 3,
+                height = 3,
                 input_channel = kernel1.output_map_channel,
-                output_map_channel = 50,
-                vStride = 2,
-                hStride = 2,
-                poolingWindowWidth = 5,
-                poolingWindowHeight = 5,
+                output_map_channel = 10,
+                vStride = 1,
+                hStride = 1,
+                poolingWindowWidth = 3,
+                poolingWindowHeight = 3,
             };
 
             Function convolutionPooling2 = ConvolutionWithMaxPooling(inputLayer: convolutionPooling1, kernel: kernel2);
 
             // 3. Reshape layer
-            int planeDimension = ((Variable)convolutionPooling2).Shape.Dimensions.Aggregate((d1, d2) => d1 * d2);
-            Function reshaped = Reshape(convolutionPooling2, new int[] { planeDimension });
+            Function reshaped = Flatten(convolutionPooling2);
+            // int planeDimension = ((Variable)convolutionPooling2).Shape.Dimensions.Aggregate((d1, d2) => d1 * d2);
+            // Function reshaped = Reshape(convolutionPooling2, new int[] { planeDimension });
 
             // 4. Fully connected layer I 
-            Function fullyConnectedI = ReLU(FullyConnectedLinearLayer(reshaped, 500, "outputl1"), "reluI");
+            Function fullyConnectedI = Sigmoid(FullyConnectedLinearLayer(reshaped, 240, "outputl1"), "SigmoidI");
 
-            // 5. Fully connected layer II
-            Function fullyConnectedII = FullyConnectedLinearLayer(reshaped, outputDesmintations, "outputl2");
+            // 5. Fully connected layer II 
+            Function fullyConnectedII = Sigmoid(FullyConnectedLinearLayer(fullyConnectedI, 100, "outputl2"), "SigmoidII");
 
-            // 6. Softmax layer
-            Function softmaxLayer = Softmax(fullyConnectedII, classifierName);
+            // 6. Fully connected layer III
+            Function fullyConnectedIII = FullyConnectedLinearLayer(fullyConnectedII, outputDesmintations, "outputl3");
+
+            // 7. Softmax layer
+            Function softmaxLayer = Softmax(fullyConnectedIII, classifierName);
 
             cnn_function = softmaxLayer;
         }
