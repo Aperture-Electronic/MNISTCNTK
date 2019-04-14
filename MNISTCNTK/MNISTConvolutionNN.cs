@@ -89,8 +89,8 @@ namespace MNISTCNTK
             Parameter conv_para = new Parameter(
                 shape: new int[] { kernel.width, kernel.height, kernel.input_channel, kernel.output_map_channel },
                 dataType: DataType.Float, initializer: GlorotUniformInitializer(convWScale, -1, 2), device: device);
-            Function convolution = ReLU(Convolution(convolutionMap: conv_para, operand: inputLayer, strides: new int[] { 1, 1, kernel.input_channel }));
-
+            Function convolution = LeakyReLU(operand: Convolution(convolutionMap: conv_para, operand: inputLayer, strides: new int[] { 1, 1, kernel.input_channel }), alpha: 0.3f);
+            
             Function pooling = Pooling(operand: convolution, poolingType: PoolingType.Max,
                 poolingWindowShape: new int[] { kernel.poolingWindowWidth, kernel.poolingWindowHeight },
                 strides: new int[] { kernel.hStride, kernel.vStride },
