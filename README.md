@@ -2,7 +2,7 @@
 A MNIST test program written by CNTK with CNN
 
 ## Current best score
-Now the lastest model rans a best score, it list as follow.
+Now the lastest model rans a best score, it is list as follow.
 ### Lastest Model
 * Update the convolution activation function from ReLU to LakeyReLU.
 
@@ -29,10 +29,10 @@ The simple structure is list as follow.
 * Input (Normalizated grayscale image 28 x 28)
 * Convolution layer I: Kernel: 3 x 3 with Stride 1, Channel: 30
 * LakeyReLU
-* Pooling layer I: Kernel: 3 x 3 with Srride 2
+* Pooling layer I: Kernel: 3 x 3 with Stride 2
 * Convolution layer II: Kernel: 3 x 3 with Stride 1, Channel: 10
 * LakeyReLU
-* Pooling layer II: Kernel: 3 x 3 with Srride 1
+* Pooling layer II: Kernel: 3 x 3 with Stride 1
 * Flatten layer
 * Fully connected layer I: 240 Neurons
 * Sigmoid
